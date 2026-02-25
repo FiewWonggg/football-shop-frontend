@@ -1,0 +1,43 @@
+{
+  "name": "football-shop-web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "dev:all": "concurrently \"npm run dev\" \"npm run start:api\"",
+    "start:api": "cd ../football-shop-api && npm run start:dev"
+  },
+  "dependencies": {
+    "@react-pdf/renderer": "^4.3.2",
+    "@reduxjs/toolkit": "^2.9.2",
+    "axios": "^1.13.1",
+    "qrcode.react": "^4.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^6.24.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@types/node": "^20.14.9",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-redux": "^7.1.34",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.19",
+    "baseline-browser-mapping": "^2.9.19",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "globals": "^15.6.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "typescript": "~5.5.3",
+    "typescript-eslint": "^7.18.0",
+    "vite": "^5.3.3"
+  }
+}

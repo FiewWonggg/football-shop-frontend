@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    // 1. Base Options: ตั้งค่าที่เข้ากันได้กับ Vite ส่วนใหญ่
+    "target": "ES2022", 
+    "module": "ESNext", // กลับไปใช้ ESNext
+    "moduleResolution": "bundler", // <-- เปลี่ยนเป็น "bundler" (มาตรฐาน Vite)
+
+    // 2. JSX/React: การจัดการไฟล์ React
+    "jsx": "react-jsx", 
+    "lib": ["DOM", "DOM.Iterable", "ES2022"], 
+
+    // 3. Strictness & Interop: การตั้งค่าที่เข้มงวดและสำคัญ
+    "strict": true, 
+    "esModuleInterop": true, 
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "skipLibCheck": true, 
+    "allowImportingTsExtensions": true, 
+
+    // 4. No Emit (Fixes the current error)
+    "noEmit": true,
+
+    // 5. Alias
+    "baseUrl": "./", 
+    "paths": {
+      "@/*": ["src/*"] 
+    }
+  },
+  "include": ["src"] // รวมไฟล์ทั้งหมดในโฟลเดอร์ src
+}
