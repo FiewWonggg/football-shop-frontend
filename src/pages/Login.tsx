@@ -67,7 +67,7 @@ const Login: React.FC = () => {
             />
           </div>
           <div className="flex items-baseline justify-between mt-6">
-            <button className="px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 w-full">
+            <button className="px-6 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 w-full">
               เข้าสู่ระบบ
             </button>
           </div>

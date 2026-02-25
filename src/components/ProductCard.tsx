@@ -1,42 +1,41 @@
-// [Imports] ดึงของที่ใช้: Link (เปลี่ยนหน้า), types, hook, และ action เพิ่มตะกร้าimport React from 'react';
+// [Imports] ดึงของที่ใช้: Link (เปลี่ยนหน้า), types, hook, และ action เพิ่มตะกร้า
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom'; // ✅ นำเข้า useNavigate สำหรับเปลี่ยนหน้า
+import type { Product } from '../types/product'; 
+import { useAppDispatch } from '../app/hooks'; 
+import { addCartItem } from '../features/features/cart/cartSlice'; 
 
-import { Link } from 'react-router-dom'; 
-import type { Product } from '../types/product'; //type ของสินค้า (ให้ TypeScript คุมให้ถูก)
-import { useAppDispatch } from '../app/hooks'; //เอาไว้ยิง action ไป Redux
-import { addCartItem } from '../features/features/cart/cartSlice'; //action ที่ตะกร้าใช้เพื่อเพิ่มสินค้า
+// ✅ ใช้ getImageUrl ที่เราทำไว้ใน utils อย่างเดียวพอครับ (มันตั้งค่า URL Render ไว้แล้ว)
+import { getImageUrl } from '../utils/getImageUrl'; 
 
-//// [Props] ระบุว่า ProductCard จะได้รับ prop ชื่อ product ที่เป็นชนิด Product /กันพลาดเรื่องชนิดข้อมูล
+//// [Props] ระบุว่า ProductCard จะได้รับ prop ชื่อ product
 interface ProductCardProps {
     product: Product;
 }
 
-// [Helper] getImageUrl: แปลง path รูปให้กลายเป็น URL ที่เปิดได้จริง
-const getImageUrl = (path: string | undefined): string => {
-    // ถ้าไม่มี Path หรือเป็นค่าว่าง ให้ใช้ Placeholder
-    if (!path) {
-        return 'https://via.placeholder.com/400x300.png?text=No+Image';
-    }
-    
-    // ตรวจสอบว่า Path มี http/https อยู่แล้วหรือไม่ (อาจเป็นรูปภายนอก)
-    if (path.startsWith('http') || path.startsWith('https')) {
-        return path;
-    }
-
-    // **เพื่อความง่ายและปลอดภัยที่สุด เราจะใช้ Base URL ของ Backend ที่เรารู้**
-    // NestJS รันที่พอร์ต 3000
-    return `/api/products/${path}`;
-};
-
 // [Component] การ์ดสินค้า
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate(); // เรียกใช้งาน useNavigate
 
-     // [Event] กดปุ่ม "เพิ่มลงตะกร้า" → ยิง action ไปที่ cartSlice
+    // [Event] กดปุ่ม "เพิ่มลงตะกร้า" 
     const handleAddToCart = () => {
+        // 1. เช็ค Token ว่าผู้ใช้ล็อกอินหรือยัง
+        const token = localStorage.getItem('access_token');
+        
+        // 2. ถ้ายังไม่ล็อกอิน ให้แจ้งเตือนและเด้งไปหน้า Login
+        if (!token) {
+            alert('กรุณาเข้าสู่ระบบก่อนเลือกซื้อสินค้านะครับ ⚽');
+            navigate('/login');
+            return; // หยุดการทำงาน ไม่ให้เพิ่มสินค้าลงตะกร้า
+        }
+
+        // 3. ถ้าล็อกอินแล้ว เพิ่มสินค้าลงตะกร้าได้ตามปกติเลย
         dispatch(addCartItem(product));
+        alert('เพิ่มสินค้าลงตะกร้าแล้วครับ!');
     };
     
-     // [Image URL] ใช้ฟังก์ชันช่วย เพื่อให้ได้ URL ที่ถูกต้องก่อนส่งให้ <img>*
+    // [Image URL] ดึงรูปผ่านฟังก์ชัน getImageUrl ที่ import มา
     const imageUrl = getImageUrl(product.imageUrl);
 
     return (
@@ -47,10 +46,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <Link to={`/products/${product._id}`}>
                 <div className="h-48 w-full overflow-hidden bg-gray-200 flex justify-center items-center">
                     <img
-                        // *** ใช้ imageUrl ที่ผ่านการประมวลผลแล้ว ***
                         src={imageUrl} 
                         alt={product.name}
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                        onError={(e) => {
+                            // ดักไว้ถ้ารูปเสีย ให้โชว์รูป placeholder แทน
+                            (e.currentTarget as HTMLImageElement).src = 'https://via.placeholder.com/400x300.png?text=No+Image';
+                        }}
                     />
                 </div>
             </Link>
