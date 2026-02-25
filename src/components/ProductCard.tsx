@@ -24,7 +24,7 @@ const getImageUrl = (path: string | undefined): string => {
 
     // **เพื่อความง่ายและปลอดภัยที่สุด เราจะใช้ Base URL ของ Backend ที่เรารู้**
     // NestJS รันที่พอร์ต 3000
-    return `https://football-shop-api.onrender.com/${path}`;
+    return `/api/products/${path}`;
 };
 
 // [Component] การ์ดสินค้า

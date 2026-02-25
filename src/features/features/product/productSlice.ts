@@ -4,7 +4,7 @@ import type { RootState } from '../../../app/store';
 import type { Product } from '../../../types/product';
 import axios from 'axios';
 
-const API_URL = '/api/products';
+const API_URL = 'https://football-shop-api.onrender.com/api/products';
 
 //  [State Type + initialState] โครง state สำหรับ products
 interface ProductState {

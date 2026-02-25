@@ -256,7 +256,7 @@ const ProductFormModal: React.FC<ProductFormModalProps> = ({ isOpen, onClose, cu
                                 </p>
                                 {hasExistingImage && !selectedFile && (
                                     <img
-                                        src={`https://football-shop-api.onrender.com/${currentProduct!.imageUrl}`}
+                                        src={`https://football-shop-api.onrender.com//${currentProduct!.imageUrl}`}
                                         alt="Product Preview"
                                         className="w-24 h-24 object-cover rounded-md border"
                                     />
